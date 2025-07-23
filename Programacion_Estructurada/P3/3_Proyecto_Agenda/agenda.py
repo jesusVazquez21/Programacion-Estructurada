@@ -139,7 +139,6 @@ def modificar_contacto(agenda):
         val=(nombre,)
         cursor.execute(sql,val)
         registros=cursor.fetchall()
-
         if registros:
             print(f"{'|'}{'🆔 id':<10} {'|'}{'👤 nombre':<20} {'|'}{'📞 telefono':<20}{'|'}{'📧 correo':<20}")
             print(f"{'-'*80}")

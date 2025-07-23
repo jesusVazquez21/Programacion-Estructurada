@@ -1,27 +1,34 @@
 from conexionBD import *
 import datetime
+import hashlib
 
-def registrar(nombre, apellidos, email, contrasena):
+def hash_password(contrasena):
+    return hashlib.sha256(contrasena.encode()).hexdigest()
+
+def registrar(nombre,apellidos,email,contrasena):
     try:
-        
-        fecha=datetime.datetime.now()
-        sql="INSERT INTO usuarios (id, nombre, apellidos, email, password, fecha) VALUES ('%s', '%s', '%s', '%s', '%s');"
-        val=(nombre, apellidos, email, contrasena, fecha)
-        cursor.execute(sql, val)
+        fecha = datetime.datetime.now()
+        contrasena=hashlib.sha256(contrasena.encode()).hexdigest()
+        sql = "insert into usuarios (nombre,apellidos,email,password, fecha) values(%s,%s,%s,%s,%s)"
+        val = (nombre,apellidos,email,contrasena,fecha)
+        cursor.execute(sql,val)
+        conexion.commit()
         return True
-    except:
+    except Exception as e:
+        print("Error al registrar usuario:", e)
         return False
-    
-def iniciar_sesion(email, contrasena):
+        
+def iniciar_sesion(email,contrasena):
     try:
-        sql="SELECT * FROM usuarios where email=%s and password=%s"
-        val=(email, contrasena)
-        cursor.execute(sql, val)
-        registros=cursor.fetchone()
+        contrasena=hashlib.sha256(contrasena.encode()).hexdigest()
+        sql = "select * from usuarios where email = %s AND password = %s"
+        val=(email,contrasena)
+        cursor.execute(sql,val)
+        registros = cursor.fetchone()
         if registros:
             return registros
-        else:
+        else: 
             return None
-    except:
+    except Exception as e:
+        print("Error al iniciar sesión:", e)
         return None
-        
