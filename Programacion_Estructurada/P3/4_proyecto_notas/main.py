@@ -113,7 +113,8 @@ def menu_notas(usuario_id,nombre,apellidos):
                 print(f"{'|'}{'ID':<6}{'|'}{'Título':<20}{'|'}{'Descripción':<50}{'|'}{'Fecha':<20}{'|'}")
                 print(f"{'-'*100}")
                 for fila in lista_notas:
-                    print(f"{'|'}{fila[0]:<6}{'|'}{fila[2]:<20}{'|'}{fila[3]:<50}{'|'}{fila[4]:<20}{'|'}")
+                    fecha_str = fila[4].strftime("%Y-%m-%d %H:%M:%S") if fila[4] else "Sin fecha"
+                    print(f"{'|'}{fila[0]:<6}{'|'}{fila[2]:<20}{'|'}{fila[3]:<50}{'|'}{fecha_str:<20}{'|'}")
                 print(f"{'-'*100}")
                 id_nota = input("\nIngrese el ID de la nota que deseas eliminar: ").strip()
                 confirm = input(f"¿Estás seguro de eliminar la nota con ID {id_nota}? (SI/NO): ").strip().lower()
